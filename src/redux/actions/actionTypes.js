@@ -1,0 +1,2 @@
+export const EXCHANGE_MONEY = "EXCHANGE_MONEY";
+export const UPDATE_FX_RATES = "UPDATE_FX_RATES";
