@@ -9,8 +9,8 @@ const INIT_STATE = {
     HUF: 305
   },
   pockets: [
-    { currencyId: "EUR", currencySymbol: "€", balance: 3 },
-    { currencyId: "USD", currencySymbol: "$", balance: 31 },
+    { currencyId: "EUR", currencySymbol: "€", balance: 3000 },
+    { currencyId: "USD", currencySymbol: "$", balance: 3100 },
     { currencyId: "GBP", currencySymbol: "£", balance: 314 },
     { currencyId: "NOK", currencySymbol: "Kr", balance: 3141 },
     { currencyId: "HUF", currencySymbol: "Ft", balance: 31415 }

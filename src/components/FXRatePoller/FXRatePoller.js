@@ -1,9 +1,10 @@
 import React from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import * as actionCreators from "../../redux/actions/actionCreators";
 
-const UPDATE_INTERVAL = 10000; //ms
+const UPDATE_INTERVAL = 10000; // 10 sec
 const BASE_CURRENCY = "USD";
 
 // function withFXRatePoller(WrappedComponents) {
@@ -45,11 +46,15 @@ class FXRatePoller extends React.Component {
 
   calculateRates(rates) {
     // convert each to USD than convert to another currency!
-    const newRatesToBaseCurrency = { ...rates, USD: 1 };
+    const newRatesToBaseCurrency = { ...rates, [BASE_CURRENCY]: 1 };
     // return newRatesToBaseCurrency.map((rate, _i, array) => )
     return newRatesToBaseCurrency;
   }
 }
+
+FXRatePoller.propTypes = {
+  actions: PropTypes.object.isRequired
+};
 
 function mapDispatchToProps(dispatch) {
   return {

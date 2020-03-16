@@ -6,6 +6,9 @@ import { bindActionCreators } from "redux";
 import CurrencyInput from "../CurrencyInput/CurrencyInput";
 import PocketSelector from "../PocketSelector/PocketSelector";
 
+const AMOUNT_DECIMALS = 2;
+const RATE_DECIMALS = 4;
+
 class ExchangePage extends React.Component {
   state = {
     rate: 0.003,
@@ -15,21 +18,22 @@ class ExchangePage extends React.Component {
   };
 
   calculateRate() {
-    return (
+    const rate =
       this.props.rates[this.state.toCurrency] /
-      this.props.rates[this.state.fromCurrency]
-    );
+      this.props.rates[this.state.fromCurrency];
+    return rate.toFixed(RATE_DECIMALS);
   }
 
   handleSubmit = event => {
     event.preventDefault();
-    alert(this.state.amount * this.state.rate);
+    const { amount, fromCurrency, toCurrency } = this.state;
+    this.props.actions.exchangeMoney({ amount, fromCurrency, toCurrency });
   };
 
   setAmount = (amount, source) => {
-    const rate = this.calculateRate();
-    let newAmount = source === "from" ? amount : amount / rate;
-    this.setState({ amount: newAmount });
+    const newAmount =
+      source === "from" ? amount : amount / this.calculateRate();
+    this.setState({ amount: newAmount.toFixed(AMOUNT_DECIMALS) });
   };
 
   setCurrency(value, source) {
@@ -38,9 +42,12 @@ class ExchangePage extends React.Component {
 
   render() {
     const currentRate = this.calculateRate();
+    const exchangeAmount = (this.state.amount * currentRate).toFixed(
+      AMOUNT_DECIMALS
+    );
     return (
       <div>
-        <h2>Exchange app</h2>
+        <h2>Exchange App</h2>
         <form onSubmit={this.handleSubmit}>
           <PocketSelector
             pockets={this.props.pockets}
@@ -62,7 +69,7 @@ class ExchangePage extends React.Component {
             }
           />
           <CurrencyInput
-            value={this.state.amount * currentRate}
+            value={exchangeAmount}
             onChange={value => this.setAmount(value, "to")}
           />
           <input type="submit" value="Exchange" />
