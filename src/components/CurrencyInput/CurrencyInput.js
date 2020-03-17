@@ -9,7 +9,7 @@ function CurrencyInput(props) {
     <div>
       <input
         type="string"
-        pattern="[0-9]*" // add decimals and validation
+        // pattern="[0-9]*" // add decimals and validation
         onChange={event => validateInput(event.target.value)}
         value={props.value}
       />

@@ -5,9 +5,7 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import CurrencyInput from "../CurrencyInput/CurrencyInput";
 import PocketSelector from "../PocketSelector/PocketSelector";
-
-const AMOUNT_DECIMALS = 2;
-const RATE_DECIMALS = 4;
+import { roundRate, roundAmount } from "../../utils";
 
 class ExchangePage extends React.Component {
   state = {
@@ -17,12 +15,12 @@ class ExchangePage extends React.Component {
     amount: 0
   };
 
-  calculateRate() {
+  calculateRate = () => {
     const rate =
       this.props.rates[this.state.toCurrency] /
       this.props.rates[this.state.fromCurrency];
-    return rate.toFixed(RATE_DECIMALS);
-  }
+    return roundRate(rate);
+  };
 
   handleSubmit = event => {
     event.preventDefault();
@@ -33,7 +31,7 @@ class ExchangePage extends React.Component {
   setAmount = (amount, source) => {
     const newAmount =
       source === "from" ? amount : amount / this.calculateRate();
-    this.setState({ amount: newAmount.toFixed(AMOUNT_DECIMALS) });
+    this.setState({ amount: roundAmount(newAmount) });
   };
 
   setCurrency(value, source) {
@@ -42,9 +40,7 @@ class ExchangePage extends React.Component {
 
   render() {
     const currentRate = this.calculateRate();
-    const exchangeAmount = (this.state.amount * currentRate).toFixed(
-      AMOUNT_DECIMALS
-    );
+    const exchangeAmount = roundAmount(this.state.amount * currentRate);
     return (
       <div>
         <h2>Exchange App</h2>

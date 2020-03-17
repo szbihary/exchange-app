@@ -8,7 +8,7 @@ class PocketSelector extends React.Component {
 
   render() {
     const selectedPocket = this.props.pockets.find(
-      pocket => pocket.currencyId === this.props.selectedCurrency
+      pocket => pocket.id === this.props.selectedCurrency
     );
     return (
       <div>
@@ -17,14 +17,14 @@ class PocketSelector extends React.Component {
           onChange={this.handlePocketChange}
         >
           {this.props.pockets.map(pocket => (
-            <option key={pocket.currencyId} value={pocket.currencyId}>
-              {pocket.currencyId}
+            <option key={pocket.id} value={pocket.id}>
+              {pocket.id}
             </option>
           ))}
         </select>
         <div>
           {"Balance: "}
-          {selectedPocket.currencySymbol}
+          {selectedPocket.symbol}
           {selectedPocket.balance}
         </div>
       </div>

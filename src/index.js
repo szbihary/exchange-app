@@ -7,17 +7,10 @@ import FXRatePoller from "./components/FXRatePoller/FXRatePoller";
 
 const store = configureStore();
 
-const currencies = [
-  { currencyId: "EUR" },
-  { currencyId: "GBP" },
-  { currencyId: "HUF" },
-  { currencyId: "NOK" }
-];
-
 ReactDOM.render(
   <Provider store={store}>
     <ExchangePage />
-    <FXRatePoller currencies={currencies} />
+    <FXRatePoller />
   </Provider>,
   document.getElementById("app")
 );
