@@ -28,15 +28,32 @@ class ExchangePage extends React.Component {
     this.props.actions.exchangeMoney({ amount, fromCurrency, toCurrency });
   };
 
-  setAmount = (amount, source) => {
-    const newAmount =
-      source === "from" ? amount : amount / this.calculateRate();
-    this.setState({ amount: roundAmount(newAmount) });
+  setAmount = (inputAmount, source) => {
+    const amount =
+      source === "from" ? inputAmount : inputAmount / this.calculateRate();
+    this.setState({
+      amount: roundAmount(amount)
+    });
   };
 
-  setCurrency(value, source) {
-    this.setState({ [`${source}Currency`]: value });
-  }
+  setCurrency = (currencyId, source) => {
+    if (source === "from") {
+      this.setState({
+        [`${source}Currency`]: currencyId
+      });
+    } else {
+      this.setState({
+        [`${source}Currency`]: currencyId
+      });
+    }
+  };
+
+  isBalanceAvailable = () => {
+    const balance = this.props.pockets.find(
+      pocket => pocket.id === this.state.fromCurrency
+    ).balance;
+    return this.state.amount > 0 && balance >= this.state.amount;
+  };
 
   render() {
     const currentRate = this.calculateRate();
@@ -56,7 +73,7 @@ class ExchangePage extends React.Component {
             value={this.state.amount}
             onChange={value => this.setAmount(value, "from")}
           />
-          <div>{currentRate}</div>
+          <div>Rate: {currentRate}</div>
           <PocketSelector
             pockets={this.props.pockets}
             selectedCurrency={this.state.toCurrency}
@@ -68,7 +85,11 @@ class ExchangePage extends React.Component {
             value={exchangeAmount}
             onChange={value => this.setAmount(value, "to")}
           />
-          <input type="submit" value="Exchange" />
+          <input
+            type="submit"
+            value="Exchange"
+            disabled={!this.isBalanceAvailable()}
+          />
         </form>
       </div>
     );

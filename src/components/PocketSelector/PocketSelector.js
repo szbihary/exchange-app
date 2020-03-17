@@ -17,7 +17,11 @@ class PocketSelector extends React.Component {
           onChange={this.handlePocketChange}
         >
           {this.props.pockets.map(pocket => (
-            <option key={pocket.id} value={pocket.id}>
+            <option
+              key={pocket.id}
+              value={pocket.id}
+              title={pocket.displayName}
+            >
               {pocket.id}
             </option>
           ))}
