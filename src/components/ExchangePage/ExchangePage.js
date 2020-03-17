@@ -6,6 +6,8 @@ import { bindActionCreators } from "redux";
 import CurrencyInput from "../CurrencyInput/CurrencyInput";
 import PocketSelector from "../PocketSelector/PocketSelector";
 import { roundRate, roundAmount } from "../../utils";
+import { Container, Card, Row, Button } from "react-bootstrap";
+import styles from "./ExchangePage.module.css";
 
 class ExchangePage extends React.Component {
   state = {
@@ -22,8 +24,7 @@ class ExchangePage extends React.Component {
     return roundRate(rate);
   };
 
-  handleSubmit = event => {
-    event.preventDefault();
+  handleButtonClick = () => {
     const { amount, fromCurrency, toCurrency } = this.state;
     this.props.actions.exchangeMoney({ amount, fromCurrency, toCurrency });
   };
@@ -55,43 +56,62 @@ class ExchangePage extends React.Component {
     return this.state.amount > 0 && balance >= this.state.amount;
   };
 
+  getSymbolById = id =>
+    this.props.pockets.find(pocket => pocket.id === id).symbol;
+
   render() {
     const currentRate = this.calculateRate();
     const exchangeAmount = roundAmount(this.state.amount * currentRate);
+    const rateText = `${this.getSymbolById(
+      this.state.fromCurrency
+    )}1 = ${this.getSymbolById(this.state.toCurrency)}${currentRate}`;
+    const isExchangeDisabled = !this.isBalanceAvailable();
     return (
-      <div>
-        <h2>Exchange App</h2>
-        <form onSubmit={this.handleSubmit}>
-          <PocketSelector
-            pockets={this.props.pockets}
-            selectedCurrency={this.state.fromCurrency}
-            onPocketChange={selectedPocketId =>
-              this.setCurrency(selectedPocketId, "from")
-            }
-          />
-          <CurrencyInput
-            value={this.state.amount}
-            onChange={value => this.setAmount(value, "from")}
-          />
-          <div>Rate: {currentRate}</div>
-          <PocketSelector
-            pockets={this.props.pockets}
-            selectedCurrency={this.state.toCurrency}
-            onPocketChange={selectedPocketId =>
-              this.setCurrency(selectedPocketId, "to")
-            }
-          />
-          <CurrencyInput
-            value={exchangeAmount}
-            onChange={value => this.setAmount(value, "to")}
-          />
-          <input
-            type="submit"
-            value="Exchange"
-            disabled={!this.isBalanceAvailable()}
-          />
-        </form>
-      </div>
+      <Container className={styles.page}>
+        <Card className={styles.card}>
+          <Card.Header className={styles.header}>Exchange App</Card.Header>
+          <Card.Body className={styles.body}>
+            <Row className="row-cols-2">
+              <PocketSelector
+                pockets={this.props.pockets}
+                selectedCurrency={this.state.fromCurrency}
+                onPocketChange={selectedPocketId =>
+                  this.setCurrency(selectedPocketId, "from")
+                }
+              />
+              <CurrencyInput
+                value={this.state.amount}
+                onChange={value => this.setAmount(value, "from")}
+              />
+            </Row>
+            <div className={styles.currentRate}>
+              <span className="badge badge-secondary">{rateText}</span>
+            </div>
+            <Row className="row-cols-2">
+              <PocketSelector
+                pockets={this.props.pockets}
+                selectedCurrency={this.state.toCurrency}
+                onPocketChange={selectedPocketId =>
+                  this.setCurrency(selectedPocketId, "to")
+                }
+              />
+              <CurrencyInput
+                value={exchangeAmount}
+                onChange={value => this.setAmount(value, "to")}
+              />
+            </Row>
+            <Row className={styles.footer}>
+              <Button
+                className={isExchangeDisabled ? styles.disabled : ""}
+                onClick={this.handleButtonClick}
+                disabled={isExchangeDisabled}
+              >
+                Exchange
+              </Button>
+            </Row>
+          </Card.Body>
+        </Card>
+      </Container>
     );
   }
 }

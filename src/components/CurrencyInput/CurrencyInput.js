@@ -1,4 +1,6 @@
 import React from "react";
+import { Form, FormControl } from "react-bootstrap";
+import styles from "./CurrencyInput.module.css";
 
 function CurrencyInput(props) {
   const validateInput = value => {
@@ -6,14 +8,15 @@ function CurrencyInput(props) {
     props.onChange(parsedValue);
   };
   return (
-    <div>
-      <input
+    <Form.Group>
+      <FormControl
+        className={styles.input}
         type="string"
         // pattern="[0-9]*" // add decimals and validation
         onChange={event => validateInput(event.target.value)}
         value={props.value}
       />
-    </div>
+    </Form.Group>
   );
 }
 

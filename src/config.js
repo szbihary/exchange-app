@@ -1,9 +1,9 @@
 const CURRENCIES = [
-  { id: "USD", symbol: "$", displayName: "Dollar" },
+  { id: "USD", symbol: "$", displayName: "US Dollar" },
   { id: "EUR", symbol: "€", displayName: "Euro" },
-  { id: "GBP", symbol: "£", displayName: "Pound" },
-  { id: "NOK", symbol: "Kr", displayName: "Krone" },
-  { id: "HUF", symbol: "Ft", displayName: "Forint" }
+  { id: "GBP", symbol: "£", displayName: "British Pound" },
+  { id: "NOK", symbol: "Kr", displayName: "Norwegian Krone" },
+  { id: "HUF", symbol: "Ft", displayName: "Hungarian Forint" }
 ];
 
 export const getCurrencies = () => CURRENCIES;

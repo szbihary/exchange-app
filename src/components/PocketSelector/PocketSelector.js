@@ -1,23 +1,24 @@
 import React from "react";
+import { Form } from "react-bootstrap";
+import styles from "./PocketSelector.module.css";
 
-class PocketSelector extends React.Component {
-  handlePocketChange = event => {
-    const selectedPocketId = event.target.value;
-    this.props.onPocketChange(selectedPocketId);
-  };
+function PocketSelector(props) {
+  const selectedPocket = props.pockets.find(
+    pocket => pocket.id === props.selectedCurrency
+  );
 
-  render() {
-    const selectedPocket = this.props.pockets.find(
-      pocket => pocket.id === this.props.selectedCurrency
-    );
-    return (
-      <div>
-        <select
-          value={this.props.selectedCurrency}
-          onChange={this.handlePocketChange}
+  return (
+    <>
+      <Form.Group className={styles.group}>
+        <Form.Control
+          className={styles.control}
+          as="select"
+          value={props.selectedCurrency}
+          onChange={event => props.onPocketChange(event.target.value)}
         >
-          {this.props.pockets.map(pocket => (
+          {props.pockets.map(pocket => (
             <option
+              className={styles.control}
               key={pocket.id}
               value={pocket.id}
               title={pocket.displayName}
@@ -25,15 +26,15 @@ class PocketSelector extends React.Component {
               {pocket.id}
             </option>
           ))}
-        </select>
-        <div>
+        </Form.Control>
+        <div className="text-muted">
           {"Balance: "}
           {selectedPocket.symbol}
           {selectedPocket.balance}
         </div>
-      </div>
-    );
-  }
+      </Form.Group>
+    </>
+  );
 }
 
 export default PocketSelector;
