@@ -29,6 +29,7 @@ class ExchangePage extends React.Component {
   handleButtonClick = () => {
     const { amount, fromCurrency, toCurrency } = this.state;
     this.props.actions.exchangeMoney({ amount, fromCurrency, toCurrency });
+    this.setState({ amount: 0 });
   };
 
   setAmount = (inputAmount, source) => {

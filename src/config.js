@@ -14,3 +14,6 @@ export const BASE_CURRENCY = "USD";
 
 export const RATE_DECIMAL_NUMBER = 4;
 export const AMOUNT_DECIMAL_NUMBER = 2;
+
+export const DEFAULT_FROM_CURRENCY = "EUR";
+export const DEFAULT_TO_CURRENCY = "USD";

@@ -24,7 +24,7 @@ class FXRatePoller extends React.Component {
   }
 
   render() {
-    return <div />;
+    return null;
   }
 
   fetchRates = () => {
@@ -38,13 +38,7 @@ class FXRatePoller extends React.Component {
         }
         return response.json();
       })
-      .then(data => {
-        const newFXRates = {
-          ...data.rates,
-          [BASE_CURRENCY]: 1
-        };
-        this.props.actions.updateFxRates(newFXRates);
-      })
+      .then(data => this.props.actions.updateFxRates(data.rates))
       .catch(error => {
         console.error("Error:", error);
       });

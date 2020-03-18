@@ -1,6 +1,5 @@
 import * as types from "../actions/actionTypes";
 import { getCurrencies } from "../../config";
-// import { roundRate, roundAmount } from "../../utils";
 
 const INIT_FX_RATES = {
   USD: 1,
