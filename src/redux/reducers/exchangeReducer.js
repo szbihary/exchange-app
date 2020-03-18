@@ -1,6 +1,6 @@
 import * as types from "../actions/actionTypes";
 import { getCurrencies } from "../../config";
-import { roundRate, roundAmount } from "../../utils";
+// import { roundRate, roundAmount } from "../../utils";
 
 const INIT_FX_RATES = {
   USD: 1,
@@ -12,10 +12,10 @@ const INIT_FX_RATES = {
 
 const INIT_BALANCES = {
   USD: 1000,
-  EUR: 3140,
+  EUR: 333,
   GBP: 999,
-  NOK: 3141,
-  HUF: 31415
+  NOK: 4567,
+  HUF: 314159
 };
 
 const INIT_STATE = {
@@ -37,12 +37,12 @@ export default function exchangeReducer(state = INIT_STATE, action) {
 
       const newPocketBalances = state.pockets.map(pocket => {
         if (pocket.id === fromCurrency) {
-          return { ...pocket, balance: roundAmount(pocket.balance - amount) };
+          return { ...pocket, balance: pocket.balance - amount };
         } else if (pocket.id === toCurrency) {
-          const rate = roundRate(rates[fromCurrency] / rates[toCurrency]);
+          const rate = rates[fromCurrency] / rates[toCurrency];
           return {
             ...pocket,
-            balance: roundAmount(pocket.balance + amount / rate)
+            balance: pocket.balance + amount / rate
           };
         }
         return { ...pocket };

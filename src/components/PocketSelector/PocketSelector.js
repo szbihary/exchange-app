@@ -1,5 +1,6 @@
 import React from "react";
 import { Form } from "react-bootstrap";
+import { roundAmount } from "../../utils";
 import styles from "./PocketSelector.module.css";
 
 function PocketSelector(props) {
@@ -30,7 +31,7 @@ function PocketSelector(props) {
         <div className="text-muted">
           {"Balance: "}
           {selectedPocket.symbol}
-          {selectedPocket.balance}
+          {roundAmount(selectedPocket.balance)}
         </div>
       </Form.Group>
     </>

@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import CurrencyInput from "../CurrencyInput/CurrencyInput";
 import PocketSelector from "../PocketSelector/PocketSelector";
-import { roundRate, roundAmount } from "../../utils";
+import { roundRate } from "../../utils";
 import { Container, Card, Row, Button } from "react-bootstrap";
 import { GraphUp, ArrowUpDown } from "react-bootstrap-icons";
 import styles from "./ExchangePage.module.css";
@@ -19,10 +19,10 @@ class ExchangePage extends React.Component {
   };
 
   calculateRate = () => {
-    const rate =
+    return (
       this.props.rates[this.state.toCurrency] /
-      this.props.rates[this.state.fromCurrency];
-    return roundRate(rate);
+      this.props.rates[this.state.fromCurrency]
+    );
   };
 
   handleButtonClick = () => {
@@ -34,7 +34,7 @@ class ExchangePage extends React.Component {
     const amount =
       source === "from" ? inputAmount : inputAmount / this.calculateRate();
     this.setState({
-      amount: roundAmount(amount)
+      amount
     });
   };
 
@@ -73,7 +73,9 @@ class ExchangePage extends React.Component {
     const exchangeAmount = this.state.amount * currentRate;
     const rateText = `  ${this.getSymbolById(
       this.state.fromCurrency
-    )}1 = ${this.getSymbolById(this.state.toCurrency)}${currentRate}`;
+    )}1 = ${this.getSymbolById(this.state.toCurrency)}${roundRate(
+      currentRate
+    )}`;
     const isExchangeDisabled =
       !this.isBalanceAvailable() ||
       this.state.fromCurrency === this.state.toCurrency;
