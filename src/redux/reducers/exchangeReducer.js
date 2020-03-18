@@ -11,9 +11,9 @@ const INIT_FX_RATES = {
 };
 
 const INIT_BALANCES = {
-  USD: 3100,
+  USD: 1000,
   EUR: 3140,
-  GBP: 314,
+  GBP: 999,
   NOK: 3141,
   HUF: 31415
 };
@@ -37,12 +37,12 @@ export default function exchangeReducer(state = INIT_STATE, action) {
 
       const newPocketBalances = state.pockets.map(pocket => {
         if (pocket.id === fromCurrency) {
-          return { ...pocket, balance: pocket.balance - roundAmount(amount) };
+          return { ...pocket, balance: roundAmount(pocket.balance - amount) };
         } else if (pocket.id === toCurrency) {
           const rate = roundRate(rates[fromCurrency] / rates[toCurrency]);
           return {
             ...pocket,
-            balance: pocket.balance + roundAmount(amount / rate)
+            balance: roundAmount(pocket.balance + amount / rate)
           };
         }
         return { ...pocket };

@@ -3,22 +3,23 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import * as actionCreators from "../../redux/actions/actionCreators";
-import { getCurrencyIds } from "../../config";
+import {
+  getCurrencyIds,
+  BASE_CURRENCY,
+  UPDATE_INTERVAL_MS
+} from "../../config";
 
-// const UPDATE_INTERVAL = 10000; // 10 sec
-const BASE_CURRENCY = "USD";
 const currencyIds = getCurrencyIds();
 
-// function withFXRatePoller(WrappedComponents) {
 class FXRatePoller extends React.Component {
   componentDidMount() {
     this.fetchRates();
-    // this.timerId = setInterval(this.fetchRates, UPDATE_INTERVAL);
+    this.timerId = setInterval(this.fetchRates, UPDATE_INTERVAL_MS);
   }
 
   componentWillUnmount() {
     if (this.timerId) {
-      // clearInterval(this.timerId);
+      clearInterval(this.timerId);
     }
   }
 
@@ -38,7 +39,10 @@ class FXRatePoller extends React.Component {
         return response.json();
       })
       .then(data => {
-        const newFXRates = { ...data.rates, [BASE_CURRENCY]: 1 };
+        const newFXRates = {
+          ...data.rates,
+          [BASE_CURRENCY]: 1
+        };
         this.props.actions.updateFxRates(newFXRates);
       })
       .catch(error => {

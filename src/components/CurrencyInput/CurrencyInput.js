@@ -1,21 +1,27 @@
 import React from "react";
 import { Form, FormControl } from "react-bootstrap";
+import NumberFormat from "react-number-format";
 import styles from "./CurrencyInput.module.css";
+import { roundAmount } from "../../utils";
 
 function CurrencyInput(props) {
-  const validateInput = value => {
-    const parsedValue = isNaN(parseFloat(value)) ? 0 : parseFloat(value);
-    props.onChange(parsedValue);
+  const handleChange = floatValue => {
+    if (props.value === floatValue) {
+      return;
+    }
+    const newValue = floatValue === 0 && floatValue === "." ? "0." : floatValue;
+    props.onChange(newValue);
   };
   return (
     <Form.Group className={styles.Group}>
-      <FormControl
+      <NumberFormat
         className={styles.input}
-        type="string"
-        maxLength="20"
-        // pattern="[0-9]*" // add decimals and validation
-        onChange={event => validateInput(event.target.value)}
-        value={props.value}
+        value={roundAmount(props.value)}
+        onValueChange={value => handleChange(value.floatValue)}
+        decimalScale={2}
+        thousandSeparator={true}
+        customInput={FormControl}
+        allowNegative={false}
       />
     </Form.Group>
   );

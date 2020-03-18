@@ -12,9 +12,9 @@ import styles from "./ExchangePage.module.css";
 
 class ExchangePage extends React.Component {
   state = {
-    rate: 0.003,
+    rate: 1,
     fromCurrency: "EUR",
-    toCurrency: "USD",
+    toCurrency: "GBP",
     amount: 0
   };
 
@@ -70,7 +70,7 @@ class ExchangePage extends React.Component {
 
   render() {
     const currentRate = this.calculateRate();
-    const exchangeAmount = roundAmount(this.state.amount * currentRate);
+    const exchangeAmount = this.state.amount * currentRate;
     const rateText = `  ${this.getSymbolById(
       this.state.fromCurrency
     )}1 = ${this.getSymbolById(this.state.toCurrency)}${currentRate}`;
@@ -92,7 +92,10 @@ class ExchangePage extends React.Component {
               />
               <CurrencyInput
                 value={this.state.amount}
-                onChange={value => this.setAmount(value, "from")}
+                source={"from"}
+                onChange={value => {
+                  this.setAmount(value, "from");
+                }}
               />
             </Row>
             <Row className={styles.rate}>
@@ -120,6 +123,7 @@ class ExchangePage extends React.Component {
               />
               <CurrencyInput
                 value={exchangeAmount}
+                source={"to"}
                 onChange={value => this.setAmount(value, "to")}
               />
             </Row>
