@@ -7,14 +7,15 @@ import CurrencyInput from "../CurrencyInput/CurrencyInput";
 import PocketSelector from "../PocketSelector/PocketSelector";
 import { roundRate } from "../../utils";
 import { Container, Card, Row, Button } from "react-bootstrap";
-import { GraphUp, ArrowUpDown } from "react-bootstrap-icons";
+import { GraphUp, ArrowUpDown, ArrowRepeat } from "react-bootstrap-icons";
 import styles from "./ExchangePage.module.css";
+import { DEFAULT_FROM_CURRENCY, DEFAULT_TO_CURRENCY } from "../../config";
 
 class ExchangePage extends React.Component {
   state = {
     rate: 1,
-    fromCurrency: "EUR",
-    toCurrency: "GBP",
+    fromCurrency: DEFAULT_FROM_CURRENCY,
+    toCurrency: DEFAULT_TO_CURRENCY,
     amount: 0
   };
 
@@ -82,7 +83,10 @@ class ExchangePage extends React.Component {
     return (
       <Container className={styles.page}>
         <Card className={styles.card}>
-          <Card.Header className={styles.header}>Exchange App</Card.Header>
+          <Card.Header className={styles.header}>
+            <ArrowRepeat color="black" size={24} />
+            <span className={styles.headerText}>Exchange App</span>
+          </Card.Header>
           <Card.Body className={styles.body}>
             <Row className="row-cols-2">
               <PocketSelector
