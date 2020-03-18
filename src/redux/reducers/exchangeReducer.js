@@ -6,8 +6,8 @@ const INIT_FX_RATES = {
   USD: 1,
   EUR: 0.9,
   GBP: 0.8,
-  NOK: 10,
-  HUF: 305
+  NOK: 10.5,
+  HUF: 315
 };
 
 const INIT_BALANCES = {

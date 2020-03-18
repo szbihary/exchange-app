@@ -8,10 +8,11 @@ function CurrencyInput(props) {
     props.onChange(parsedValue);
   };
   return (
-    <Form.Group>
+    <Form.Group className={styles.Group}>
       <FormControl
         className={styles.input}
         type="string"
+        maxLength="20"
         // pattern="[0-9]*" // add decimals and validation
         onChange={event => validateInput(event.target.value)}
         value={props.value}

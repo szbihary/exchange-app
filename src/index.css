@@ -11,3 +11,7 @@ body {
   align-items: center;
   background-color: lightgray;
 }
+
+.badge {
+  border: 1px solid #ced4da;
+}

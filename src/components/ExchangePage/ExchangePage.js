@@ -7,6 +7,7 @@ import CurrencyInput from "../CurrencyInput/CurrencyInput";
 import PocketSelector from "../PocketSelector/PocketSelector";
 import { roundRate, roundAmount } from "../../utils";
 import { Container, Card, Row, Button } from "react-bootstrap";
+import { GraphUp, ArrowUpDown } from "react-bootstrap-icons";
 import styles from "./ExchangePage.module.css";
 
 class ExchangePage extends React.Component {
@@ -38,15 +39,23 @@ class ExchangePage extends React.Component {
   };
 
   setCurrency = (currencyId, source) => {
-    if (source === "from") {
-      this.setState({
-        [`${source}Currency`]: currencyId
-      });
+    const otherSource = `${source === "from" ? "to" : "from"}Currency`;
+    // if other currency is the same as the selected one, swap them
+    if (this.state[otherSource] === currencyId) {
+      this.swapPockets();
     } else {
       this.setState({
         [`${source}Currency`]: currencyId
       });
     }
+  };
+
+  swapPockets = () => {
+    this.setState(prevState => ({
+      fromCurrency: prevState.toCurrency,
+      toCurrency: prevState.fromCurrency,
+      amount: prevState.amount * this.calculateRate()
+    }));
   };
 
   isBalanceAvailable = () => {
@@ -62,10 +71,12 @@ class ExchangePage extends React.Component {
   render() {
     const currentRate = this.calculateRate();
     const exchangeAmount = roundAmount(this.state.amount * currentRate);
-    const rateText = `${this.getSymbolById(
+    const rateText = `  ${this.getSymbolById(
       this.state.fromCurrency
     )}1 = ${this.getSymbolById(this.state.toCurrency)}${currentRate}`;
-    const isExchangeDisabled = !this.isBalanceAvailable();
+    const isExchangeDisabled =
+      !this.isBalanceAvailable() ||
+      this.state.fromCurrency === this.state.toCurrency;
     return (
       <Container className={styles.page}>
         <Card className={styles.card}>
@@ -84,9 +95,21 @@ class ExchangePage extends React.Component {
                 onChange={value => this.setAmount(value, "from")}
               />
             </Row>
-            <div className={styles.currentRate}>
-              <span className="badge badge-secondary">{rateText}</span>
-            </div>
+            <Row className={styles.rate}>
+              <div className={styles.swap}>
+                <div
+                  className="badge badge-light"
+                  title="Swap pockets"
+                  onClick={this.swapPockets}
+                >
+                  <ArrowUpDown color="black" size={16} />
+                </div>
+              </div>
+              <div className="badge badge-light">
+                <GraphUp color="black" size={16} />
+                <span className={styles.rateText}>{rateText}</span>
+              </div>
+            </Row>
             <Row className="row-cols-2">
               <PocketSelector
                 pockets={this.props.pockets}

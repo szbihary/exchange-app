@@ -1,13 +1,7 @@
-import { DECIMAL_PLACES } from "./config";
-
-function round(number, decimals) {
-  return +(Math.round(number + "e+" + decimals) + "e-" + decimals);
-}
-
 export function roundRate(number) {
-  return round(number, DECIMAL_PLACES.RATE);
+  return Math.round((number + Number.EPSILON) * 10000) / 10000;
 }
 
 export function roundAmount(number) {
-  return round(number, DECIMAL_PLACES.AMOUNT);
+  return Math.round((number + Number.EPSILON) * 100) / 100;
 }

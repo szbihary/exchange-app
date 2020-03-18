@@ -10,7 +10,6 @@
 
 .header {
   font-size: 24px;
-  font-weight: bold;
 }
 
 .body {
@@ -18,10 +17,24 @@
   min-width: 250px;
 }
 
-.currentRate {
+.rate {
+  position: relative;
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+}
+
+.swap {
+  position: absolute;
+  left: 0;
+  top: -4px;
+  cursor: pointer;
+}
+
+.rateText {
+  font-weight: 400;
 }
 
 .footer {

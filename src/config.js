@@ -8,8 +8,3 @@ const CURRENCIES = [
 
 export const getCurrencies = () => CURRENCIES;
 export const getCurrencyIds = () => CURRENCIES.map(currency => currency.id);
-
-export const DECIMAL_PLACES = {
-  AMOUNT: 2,
-  RATE: 4
-};
