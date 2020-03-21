@@ -3,6 +3,7 @@ import { Form, FormControl } from "react-bootstrap";
 import NumberFormat from "react-number-format";
 import { roundAmount } from "../../utils";
 import styles from "./CurrencyInput.module.css";
+import PropTypes from "prop-types";
 
 class CurrencyInput extends React.Component {
   state = {
@@ -17,7 +18,7 @@ class CurrencyInput extends React.Component {
 
   render() {
     return (
-      <Form.Group className={styles.Group}>
+      <Form.Group className={styles.group}>
         <NumberFormat
           className={styles.input}
           prefix={
@@ -48,5 +49,11 @@ class CurrencyInput extends React.Component {
     );
   }
 }
+
+CurrencyInput.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.number,
+  source: PropTypes.oneOf(["to", "from"])
+};
 
 export default CurrencyInput;

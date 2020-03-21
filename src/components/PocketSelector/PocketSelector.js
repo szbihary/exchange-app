@@ -2,6 +2,7 @@ import React from "react";
 import { Form } from "react-bootstrap";
 import { roundAmount } from "../../utils";
 import styles from "./PocketSelector.module.css";
+import PropTypes from "prop-types";
 
 function PocketSelector(props) {
   const selectedPocket = props.pockets.find(
@@ -35,5 +36,16 @@ function PocketSelector(props) {
     </Form.Group>
   );
 }
+
+PocketSelector.propTypes = {
+  pockets: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      balance: PropTypes.number.isRequired,
+      symbol: PropTypes.string.isRequired,
+      displayName: PropTypes.string
+    })
+  )
+};
 
 export default PocketSelector;

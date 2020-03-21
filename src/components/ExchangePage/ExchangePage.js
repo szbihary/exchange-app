@@ -13,7 +13,6 @@ import { DEFAULT_FROM_CURRENCY, DEFAULT_TO_CURRENCY } from "../../config";
 
 class ExchangePage extends React.Component {
   state = {
-    rate: 1,
     fromCurrency: DEFAULT_FROM_CURRENCY,
     toCurrency: DEFAULT_TO_CURRENCY,
     amount: 0
@@ -151,7 +150,9 @@ class ExchangePage extends React.Component {
 }
 
 ExchangePage.propTypes = {
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  pockets: PropTypes.arrayOf(PropTypes.object),
+  rates: PropTypes.objectOf(PropTypes.number)
 };
 
 function mapStateToProps(state) {
