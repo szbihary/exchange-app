@@ -17,7 +17,6 @@ export function loadFxRates() {
         dispatch(loadFxRatesSuccess(data.rates));
       })
       .catch(error => {
-        // throw error;
         console.error("Error:", error);
       });
   };

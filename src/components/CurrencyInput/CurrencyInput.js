@@ -22,14 +22,14 @@ class CurrencyInput extends React.Component {
         <NumberFormat
           className={styles.input}
           prefix={
-            this.props.value === 0
+            this.props.value === 0 || this.props.value === "."
               ? ""
               : this.props.source === "from"
               ? "-"
               : "+"
           }
           value={roundAmount(this.props.value)}
-          onValueChange={value => this.handleChange(value.floatValue)}
+          onValueChange={value => this.handleChange(value.floatValue || 0)}
           decimalScale={2}
           thousandSeparator={true}
           customInput={FormControl}

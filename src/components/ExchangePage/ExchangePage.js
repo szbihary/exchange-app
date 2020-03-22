@@ -5,17 +5,19 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import CurrencyInput from "../CurrencyInput/CurrencyInput";
 import PocketSelector from "../PocketSelector/PocketSelector";
-import { roundRate } from "../../utils";
+import SuccessDialog from "../SuccessDialog/SuccessDialog";
+import { roundRate, roundAmount } from "../../utils";
 import { Container, Card, Row, Button } from "react-bootstrap";
 import { GraphUp, ArrowUpDown, ArrowRepeat } from "react-bootstrap-icons";
 import styles from "./ExchangePage.module.css";
 import { DEFAULT_FROM_CURRENCY, DEFAULT_TO_CURRENCY } from "../../config";
 
-class ExchangePage extends React.Component {
+export class ExchangePage extends React.Component {
   state = {
     fromCurrency: DEFAULT_FROM_CURRENCY,
     toCurrency: DEFAULT_TO_CURRENCY,
-    amount: 0
+    amount: 0,
+    confirmationText: null
   };
 
   calculateRate = () => {
@@ -28,7 +30,9 @@ class ExchangePage extends React.Component {
   handleButtonClick = () => {
     const { amount, fromCurrency, toCurrency } = this.state;
     this.props.actions.exchangeMoney({ amount, fromCurrency, toCurrency });
-    this.setState({ amount: 0 });
+    this.setState({
+      confirmationText: this.getConfirmationText()
+    });
   };
 
   setAmount = (inputAmount, source) => {
@@ -84,7 +88,7 @@ class ExchangePage extends React.Component {
       <Container className={styles.page}>
         <Card className={styles.card}>
           <Card.Header className={styles.header}>
-            <ArrowRepeat color="black" size={24} />
+            <ArrowRepeat color="black" size={28} />
             <span className={styles.headerText}>Exchange App</span>
           </Card.Header>
           <Card.Body className={styles.body}>
@@ -111,11 +115,11 @@ class ExchangePage extends React.Component {
                   title="Swap pockets"
                   onClick={this.swapPockets}
                 >
-                  <ArrowUpDown color="black" size={16} />
+                  <ArrowUpDown color="blue" size={16} />
                 </div>
               </div>
               <div className="badge badge-light">
-                <GraphUp color="black" size={16} />
+                <GraphUp color="blue" size={16} />
                 <span className={styles.rateText}>{rateText}</span>
               </div>
             </Row>
@@ -144,9 +148,41 @@ class ExchangePage extends React.Component {
             </Row>
           </Card.Body>
         </Card>
+        <div className={styles.toastContainer}>
+          {!!this.state.confirmationText && this.renderSuccessDialog()}
+        </div>
       </Container>
     );
   }
+
+  renderSuccessDialog() {
+    return (
+      <SuccessDialog
+        show={!!this.state.confirmationText}
+        handleClose={() => {
+          this.setState({
+            confirmationText: null,
+            amount: 0
+          });
+        }}
+        message={this.state.confirmationText}
+      />
+    );
+  }
+
+  getConfirmationText = () => {
+    const toAmount = roundAmount(this.state.amount * this.calculateRate());
+    const fromSymbol = this.props.pockets.find(
+      pocket => pocket.id === this.state.fromCurrency
+    ).symbol;
+    const toSymbol = this.props.pockets.find(
+      pocket => pocket.id === this.state.toCurrency
+    ).symbol;
+
+    return `You exchanged ${fromSymbol}${roundAmount(
+      this.state.amount
+    )} to ${toSymbol}${toAmount} successfully.`;
+  };
 }
 
 ExchangePage.propTypes = {
