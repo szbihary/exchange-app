@@ -2,13 +2,13 @@ import * as actions from "./actionCreators";
 import * as types from "./actionTypes";
 import { rates, payload } from "../../tools/mockData";
 
-describe("updateFxRates", () => {
-  it("should create an UPDATE_FX_RATES action", () => {
+describe("loadFxRatesSuccess", () => {
+  it("should create an LOAD_FX_RATES_SUCCESS action", () => {
     const expectedAction = {
-      type: types.UPDATE_FX_RATES,
+      type: types.LOAD_FX_RATES_SUCCESS,
       rates
     };
-    const action = actions.updateFxRates(rates);
+    const action = actions.loadFxRatesSuccess(rates);
     expect(action).toEqual(expectedAction);
   });
 });

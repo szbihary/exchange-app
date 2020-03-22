@@ -17,3 +17,5 @@ export const AMOUNT_DECIMAL_NUMBER = 2;
 
 export const DEFAULT_FROM_CURRENCY = "EUR";
 export const DEFAULT_TO_CURRENCY = "USD";
+
+export const EXCHANGE_API_BASE_URL = "https://api.exchangeratesapi.io";

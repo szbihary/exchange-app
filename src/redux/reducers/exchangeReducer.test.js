@@ -6,10 +6,10 @@ import { getCurrencies } from "../../config";
 const INIT_RATES = { EUR: 1.1, USD: 1 };
 
 describe("ExchangeReducer", () => {
-  it("should update FX rates when UPDATE_FX_RATES action is passed", () => {
+  it("should update FX rates when LOAD_FX_RATES_SUCCESS action is passed", () => {
     const initialState = INIT_RATES;
     const newRates = rates;
-    const action = actions.updateFxRates(newRates);
+    const action = actions.loadFxRatesSuccess(newRates);
 
     const newState = exchangeReducer(initialState, action);
 

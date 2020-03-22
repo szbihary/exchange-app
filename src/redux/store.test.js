@@ -15,7 +15,7 @@ describe("Store", () => {
 
   it("should handle updating FX rates", () => {
     const newRatesFromServer = rates;
-    const action = actions.updateFxRates(rates);
+    const action = actions.loadFxRatesSuccess(rates);
     store.dispatch(action);
 
     const newRatesInStore = store.getState().rates;

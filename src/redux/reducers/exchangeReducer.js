@@ -12,7 +12,7 @@ const INIT_STATE = {
 
 export default function exchangeReducer(state = INIT_STATE, action) {
   switch (action.type) {
-    case types.UPDATE_FX_RATES:
+    case types.LOAD_FX_RATES_SUCCESS:
       return { ...state, rates: action.rates };
 
     case types.EXCHANGE_MONEY:

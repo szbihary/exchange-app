@@ -3,18 +3,15 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import * as actionCreators from "../../redux/actions/actionCreators";
-import {
-  getCurrencyIds,
-  BASE_CURRENCY,
-  UPDATE_INTERVAL_MS
-} from "../../config";
-
-const currencyIds = getCurrencyIds();
+import { UPDATE_INTERVAL_MS } from "../../config";
 
 class FXRatePoller extends React.Component {
   componentDidMount() {
-    this.fetchRates();
-    this.timerId = setInterval(this.fetchRates, UPDATE_INTERVAL_MS);
+    this.props.actions.loadFxRates();
+    this.timerId = setInterval(
+      this.props.actions.loadFxRates,
+      UPDATE_INTERVAL_MS
+    );
   }
 
   componentWillUnmount() {
@@ -26,23 +23,6 @@ class FXRatePoller extends React.Component {
   render() {
     return null;
   }
-
-  fetchRates = () => {
-    const currencyIdList = currencyIds.join(",");
-    fetch(
-      `https://api.exchangeratesapi.io/latest?base=${BASE_CURRENCY}&symbols=${currencyIdList}`
-    )
-      .then(response => {
-        if (!response.ok) {
-          throw Error(`Resposne status code: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => this.props.actions.updateFxRates(data.rates))
-      .catch(error => {
-        console.error("Error:", error);
-      });
-  };
 }
 
 FXRatePoller.propTypes = {
@@ -51,7 +31,9 @@ FXRatePoller.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actionCreators, dispatch)
+    actions: {
+      loadFxRates: bindActionCreators(actionCreators.loadFxRates, dispatch)
+    }
   };
 }
 
