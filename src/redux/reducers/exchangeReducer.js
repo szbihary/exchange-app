@@ -1,21 +1,6 @@
 import * as types from "../actions/actionTypes";
+import { INIT_FX_RATES, INIT_BALANCES } from "./initialState";
 import { getCurrencies } from "../../config";
-
-const INIT_FX_RATES = {
-  USD: 1,
-  EUR: 0.9,
-  GBP: 0.8,
-  NOK: 10.5,
-  HUF: 315
-};
-
-const INIT_BALANCES = {
-  USD: 1000,
-  EUR: 333,
-  GBP: 999,
-  NOK: 4567,
-  HUF: 314159
-};
 
 const INIT_STATE = {
   rates: INIT_FX_RATES,
