@@ -8,6 +8,11 @@ const CURRENCIES = [
 
 export const getCurrencies = () => CURRENCIES;
 export const getCurrencyIds = () => CURRENCIES.map(currency => currency.id);
+export const getCurrencySymbols = () =>
+  CURRENCIES.reduce(
+    (o, currency) => Object.assign(o, { [currency.id]: currency.symbol }),
+    {}
+  );
 
 export const UPDATE_INTERVAL_MS = 10000;
 export const BASE_CURRENCY = "USD";

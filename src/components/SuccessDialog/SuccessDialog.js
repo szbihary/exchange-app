@@ -9,7 +9,7 @@ function SuccessDialog(props) {
       <Modal.Header>
         <Modal.Title>
           <Check color="green" size={40} />
-          <span>Successful exchange!</span>
+          <span>Success</span>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>{message}</Modal.Body>

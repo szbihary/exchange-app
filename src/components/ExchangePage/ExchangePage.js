@@ -73,17 +73,16 @@ export class ExchangePage extends React.Component {
   getSymbolById = id =>
     this.props.pockets.find(pocket => pocket.id === id).symbol;
 
+  getRateText = () =>
+    `  ${this.getSymbolById(this.state.fromCurrency)}1 = ${this.getSymbolById(
+      this.state.toCurrency
+    )}${roundRate(this.calculateRate())}`;
+
   render() {
-    const currentRate = this.calculateRate();
-    const exchangeAmount = this.state.amount * currentRate;
-    const rateText = `  ${this.getSymbolById(
-      this.state.fromCurrency
-    )}1 = ${this.getSymbolById(this.state.toCurrency)}${roundRate(
-      currentRate
-    )}`;
     const isExchangeDisabled =
       !this.isBalanceAvailable() ||
       this.state.fromCurrency === this.state.toCurrency;
+
     return (
       <Container className={styles.page}>
         <Card className={styles.card}>
@@ -92,22 +91,10 @@ export class ExchangePage extends React.Component {
             <span className={styles.headerText}>Exchange App</span>
           </Card.Header>
           <Card.Body className={styles.body}>
-            <Row className="row-cols-2">
-              <PocketSelector
-                pockets={this.props.pockets}
-                selectedCurrency={this.state.fromCurrency}
-                onPocketChange={selectedPocketId =>
-                  this.setCurrency(selectedPocketId, "from")
-                }
-              />
-              <CurrencyInput
-                value={this.state.amount}
-                source={"from"}
-                onChange={value => {
-                  this.setAmount(value, "from");
-                }}
-              />
-            </Row>
+            {this.renderPocketForm({
+              source: "from",
+              amount: this.state.amount
+            })}
             <Row className={styles.rate}>
               <div className={styles.swap}>
                 <div
@@ -115,28 +102,20 @@ export class ExchangePage extends React.Component {
                   title="Swap pockets"
                   onClick={this.swapPockets}
                 >
-                  <ArrowUpDown color="blue" size={16} />
+                  <ArrowUpDown color="#0069d9" size={16} />
                 </div>
               </div>
               <div className="badge badge-light">
-                <GraphUp color="blue" size={16} />
-                <span className={styles.rateText}>{rateText}</span>
+                <GraphUp color="#0069d9" size={16} />
+                <span id="currentRate" className={styles.rateText}>
+                  {this.getRateText()}
+                </span>
               </div>
             </Row>
-            <Row className="row-cols-2">
-              <PocketSelector
-                pockets={this.props.pockets}
-                selectedCurrency={this.state.toCurrency}
-                onPocketChange={selectedPocketId =>
-                  this.setCurrency(selectedPocketId, "to")
-                }
-              />
-              <CurrencyInput
-                value={exchangeAmount}
-                source={"to"}
-                onChange={value => this.setAmount(value, "to")}
-              />
-            </Row>
+            {this.renderPocketForm({
+              source: "to",
+              amount: this.state.amount * this.calculateRate()
+            })}
             <Row className={styles.footer}>
               <Button
                 className={isExchangeDisabled ? styles.disabled : ""}
@@ -152,6 +131,27 @@ export class ExchangePage extends React.Component {
           {!!this.state.confirmationText && this.renderSuccessDialog()}
         </div>
       </Container>
+    );
+  }
+
+  renderPocketForm({ source, amount }) {
+    return (
+      <Row className="row-cols-2">
+        <PocketSelector
+          pockets={this.props.pockets}
+          selectedCurrency={
+            source === "from" ? this.state.fromCurrency : this.state.toCurrency
+          }
+          onPocketChange={selectedPocketId =>
+            this.setCurrency(selectedPocketId, source)
+          }
+        />
+        <CurrencyInput
+          value={amount}
+          source={source}
+          onChange={value => this.setAmount(value, source)}
+        />
+      </Row>
     );
   }
 
