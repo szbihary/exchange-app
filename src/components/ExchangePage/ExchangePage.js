@@ -8,7 +8,7 @@ import PocketSelector from "../PocketSelector/PocketSelector";
 import SuccessDialog from "../SuccessDialog/SuccessDialog";
 import { roundRate, roundAmount } from "../../utils";
 import { Container, Card, Row, Button } from "react-bootstrap";
-import { GraphUp, ArrowUpDown, ArrowRepeat } from "react-bootstrap-icons";
+import { GraphUp,ArrowDownUp, ArrowRepeat } from "react-bootstrap-icons";
 import styles from "./ExchangePage.module.css";
 import { DEFAULT_FROM_CURRENCY, DEFAULT_TO_CURRENCY } from "../../config";
 
@@ -102,7 +102,7 @@ export class ExchangePage extends React.Component {
                   title="Swap pockets"
                   onClick={this.swapPockets}
                 >
-                  <ArrowUpDown color="#0069d9" size={16} />
+                  <ArrowDownUp color="#0069d9" size={16} />
                 </div>
               </div>
               <div className="badge badge-light">
